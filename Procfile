@@ -1,1 +1,1 @@
-worker: python whitebot.py
+worker: python3 whitebot.py
