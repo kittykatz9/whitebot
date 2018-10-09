@@ -348,6 +348,15 @@ async def showgraph(ctx, *args):
                 m2 = 0
             else:
                 return await client.say("Expected a year between 2018 and 2020 or a graph type. Read up on instructions.")
+        except ValueError:
+            if str(arg2).lower() == 'plot':
+                graphtype = 'plot'
+            elif str(arg2).lower() == 'bar':
+                graphtype = 'bar'
+            elif str(arg2).lower() == 'pie':
+                graphtype = 'pie'
+            else:
+                graphtype = 'plot'
     else:
         return await client.say("Type '{}help showgraph' if you are in doubt...".format(PREFIX))
 
