@@ -1,1 +1,1 @@
-web: python3 whitebot.py -p process.env.PORT
+worker: python3 whitebot.py
