@@ -122,19 +122,19 @@ async def deny(ctx):
     await client.delete_message(ctx.message)
 
 
-@client.command(pass_context=True)
-async def ping(ctx):
-    now = datetime.datetime.utcnow()
-    diff = str(ctx.message.timestamp - now)
-    final = []
-    for i in diff:
-        if i == ":" or i == "0":
-            continue
-        else:
-            final.append(i)
-    final = ''.join(str(x) for x in final)
-    embed = discord.Embed(title="Ping: " '{:.2f}ms'.format(float(final)*100))
-    await client.say(embed=embed)
+# @client.command(pass_context=True)
+# async def ping(ctx):
+#     now = datetime.datetime.utcnow()
+#     diff = str(ctx.message.timestamp - now)
+#     final = []
+#     for i in diff:
+#         if i == ":" or i == "0":
+#             continue
+#         else:
+#             final.append(i)
+#     final = ''.join(str(x) for x in final)
+#     embed = discord.Embed(title="Ping: " '{:.2f}ms'.format(float(final)*100))
+#     await client.say(embed=embed)
 
 
 @client.command(pass_context=True)
