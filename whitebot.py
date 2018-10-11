@@ -103,7 +103,7 @@ async def on_member_ban(member):
 
 @client.event
 async def on_member_update(before, member):
-    role = discord.utils.get(ctx.message.server.roles,
+    role = discord.utils.get(member.server.roles,
                              name="pending")
     if role in before.roles and role not in member.roles:
 
