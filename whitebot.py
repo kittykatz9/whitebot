@@ -488,6 +488,8 @@ async def showgraph(ctx, *args):
     channel = ctx.message.channel
 
     if graphtype == "plot":
+        bg_color = '36393E'
+        fg_color = 'white'
         if m2 == 0:
             x = []
             y = []
@@ -505,9 +507,8 @@ async def showgraph(ctx, *args):
             plt.xlabel('Days of the Month', color='whitesmoke')
             plt.ylabel('Number of Applicants', color='whitesmoke')
             plt.title('Applicant Data for {}, {}'.format(realmonth, yr), color='whitesmoke')
-            plt.plot(x, y, color='k')
+            plt.plot(x, y, color='k', facecolor=bg_color, edgecolor=fg_color)
             plt.savefig("plot.png", bbox_inches='tight')
-            plt.patch.set_facecolor('#36393E')
             with open("plot.png", "rb") as f:
                 await client.send_file(channel, f)
             plt.clf()
@@ -540,6 +541,8 @@ async def showgraph(ctx, *args):
                 plt.clf()
                 plt.cla()
     if graphtype == "pie":
+        bg_color = '36393E'
+        fg_color = 'white'
         x = [stats['Statistics'][0]['Users Accepted']]
         y = [stats['Statistics'][0]['Users Denied']]
         slices = [x, y]
@@ -552,7 +555,6 @@ async def showgraph(ctx, *args):
                 shadow=True,
                 explode=(0, 0),
                 autopct='%1.1f%%')
-        plt.patch.set_facecolor('#36393E')
         plt.savefig("pie.png", bbox_inches='tight')
         with open("pie.png", "rb") as f:
             await client.send_file(channel, f)
