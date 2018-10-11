@@ -509,7 +509,7 @@ async def showgraph(ctx, *args):
             ax.set_facecolor('#36393E')
             plt.xlabel('Days of the Month', color='white')
             plt.ylabel('Number of Applicants', color='white')
-            plt.title('Applicant Data for {}, {}'.format(realmonth, yr), color='whitesmoke')
+            plt.title('Applicant Data for {}, {}'.format(realmonth, yr), color='white')
             plt.plot(x, y, color='whitesmoke')
             plt.savefig("plot.png", bbox_inches='tight', facecolor='#36393E')
             with open("plot.png", "rb") as f:
@@ -593,7 +593,7 @@ async def showgraph(ctx, *args):
             p1 = plt.bar(dates, accepted, width)
             p2 = plt.bar(dates, denied, width, bottom=denied)
             ax.set_facecolor('#36393E')
-            plt.ylabel('Users', color='whitesmoke')
+            plt.ylabel('Users', color='white')
             plt.title('Users Accepted/Denied\nPer months: {} - {}'.format(realmonth,
                                                                           realmonth2), color='white')
 
