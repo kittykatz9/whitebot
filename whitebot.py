@@ -562,7 +562,7 @@ async def showgraph(ctx, *args):
         slices = [x, y]
         activities = ["Accepted", "Denied"]
         cols = ['c', 'm']
-        plt.title('Total Applicant Data')
+        plt.title('Total Applicant Data', color='white')
         patches, texts, autotexts = plt.pie(slices, labels=activities, colors=cols,
                                             startangle=90,
                                             shadow=True,
