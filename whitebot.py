@@ -506,8 +506,9 @@ async def showgraph(ctx, *args):
             plt.xlabel('Days of the Month', color='whitesmoke')
             plt.ylabel('Number of Applicants', color='whitesmoke')
             plt.title('Applicant Data for {}, {}'.format(realmonth, yr), color='whitesmoke')
-            fig = plt.figure(facecolor=bg_color, edgecolor=fg_color)
-            fig.plot(x, y, color='whitesmoke')
+            fig = plt.figure()
+            fig.patch.set_facecolor('#36393E')
+            plt.plot(x, y, color='whitesmoke')
             plt.savefig("plot.png", bbox_inches='tight')
             with open("plot.png", "rb") as f:
                 await client.send_file(channel, f)
@@ -533,30 +534,27 @@ async def showgraph(ctx, *args):
                 plt.ylabel('Number of Applicants', color='whitesmoke')
                 plt.title('Applicant Data for {}, between {} and {}'.format(
                     yr, realmonth, realmonth2), color='whitesmoke')
-                fig = plt.figure(facecolor=bg_color, edgecolor=fg_color)
-                fig.plot(x, y, color='whitesmoke')
+                fig = plt.figure()
+                fig.patch.set_facecolor('#36393E')
+                plt.plot(x, y, color='whitesmoke')
                 plt.savefig("plot.png", bbox_inches='tight')
                 with open("plot.png", "rb") as f:
                     await client.send_file(channel, f)
                 plt.clf()
                 plt.cla()
     if graphtype == "pie":
-        bg_color = '36393E'
-        fg_color = 'white'
         x = [stats['Statistics'][0]['Users Accepted']]
         y = [stats['Statistics'][0]['Users Denied']]
         slices = [x, y]
         activities = ["Accepted", "Denied"]
         cols = ['c', 'm']
         plt.title('Total Applicant Data')
-        ax.set_facecolor('#36393E')
         plt.pie(slices, labels=activities, colors=cols,
                 startangle=90,
                 shadow=True,
                 explode=(0, 0),
-                autopct='%1.1f%%',
-                facecolor=bg_color,
-                edgecolor=fg_color)
+                autopct='%1.1f%%')
+        fig = plt.figure(facecolor='#36393E')
         plt.savefig("pie.png", bbox_inches='tight')
         with open("pie.png", "rb") as f:
             await client.send_file(channel, f)
@@ -583,9 +581,8 @@ async def showgraph(ctx, *args):
             print(dates)
             ax = plt.figure().gca()
             plt.xticks(dates, dates)
-            p1 = plt.bar(dates, accepted, width, facecolor=bg_color, edgecolor=fg_color)
-            p2 = plt.bar(dates, denied, width, bottom=denied,
-                         facecolor=bg_color, edgecolor=fg_color)
+            p1 = plt.bar(dates, accepted, width)
+            p2 = plt.bar(dates, denied, width, bottom=denied)
             ax.set_facecolor('#36393E')
             plt.ylabel('Users', color='whitesmoke')
             plt.title('Users Accepted/Denied\nPer months: {} - {}'.format(realmonth,
