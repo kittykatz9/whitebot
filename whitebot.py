@@ -120,7 +120,7 @@ async def on_member_update(before, member):
             stats['Data Applied'][0][y][0][m][0][d] += 1
             stats['Data Accepted'][0][y][0][m][0][d] += 1
             save_stats(stats)
-            await client.say("User " + member + " accepted")
+            await client.say("User", member, "accepted")
             pending.remove(member.mention)
 
 
@@ -500,8 +500,8 @@ async def showgraph(ctx, *args):
 
             ax = plt.figure().gca()
             ax.plot(x, y)
-            ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            # ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+            # ax.xaxis.set_major_locator(MaxNLocator(integer=True))
             ax.spines['bottom'].set_color('white')
             ax.spines['top'].set_color('white')
             ax.spines['right'].set_color('white')
@@ -534,8 +534,8 @@ async def showgraph(ctx, *args):
 
                 ax = plt.figure().gca()
                 ax.plot(x, y)
-                ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-                ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+                # ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+                # ax.xaxis.set_major_locator(MaxNLocator(integer=True))
                 ax.spines['bottom'].set_color('white')
                 ax.spines['top'].set_color('white')
                 ax.spines['right'].set_color('white')
