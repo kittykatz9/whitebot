@@ -45,6 +45,12 @@ async def on_message(message):
 
 
 @client.event
+async def on_member_remove(member):
+    if member.mention in pending:
+        pending.remove(member.mention)
+
+
+@client.event
 async def on_member_join(member):
     role = discord.utils.get(member.server.roles, name="pending")
     await client.add_roles(member, role)
@@ -96,24 +102,26 @@ async def on_member_ban(member):
 
 
 @client.event
-async def on_member_update(member):
+async def on_member_update(before, member):
     role = discord.utils.get(ctx.message.server.roles,
                              name="pending")
-    if member.mention in pending:
-        time = now.strftime("%Y-%m-%d %H:%M")
-        y = str(now.year)
-        m = str(now.month)
-        d = str(now.day)
-        await client.remove_roles(member, role)
-        stats['Statistics'][0]['Applicants'] += 1
-        stats['Statistics'][0]['Users Accepted'] += 1
-        stats['Applied'][0][str(member)] = time
-        stats['Accepted'][0][str(member)] = time
-        stats['Data Applied'][0][y][0][m][0][d] += 1
-        stats['Data Accepted'][0][y][0][m][0][d] += 1
-        save_stats(stats)
-        await client.say("User " + member + " accepted")
-        pending.remove(member.mention)
+    if role in before.roles and role not in member.roles:
+
+        if member.mention in pending:
+            time = now.strftime("%Y-%m-%d %H:%M")
+            y = str(now.year)
+            m = str(now.month)
+            d = str(now.day)
+            await client.remove_roles(member, role)
+            stats['Statistics'][0]['Applicants'] += 1
+            stats['Statistics'][0]['Users Accepted'] += 1
+            stats['Applied'][0][str(member)] = time
+            stats['Accepted'][0][str(member)] = time
+            stats['Data Applied'][0][y][0][m][0][d] += 1
+            stats['Data Accepted'][0][y][0][m][0][d] += 1
+            save_stats(stats)
+            await client.say("User " + member + " accepted")
+            pending.remove(member.mention)
 
 
 @client.command(pass_context=True)
