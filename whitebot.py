@@ -502,10 +502,15 @@ async def showgraph(ctx, *args):
             ax.plot(x, y)
             ax.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-            ax.spines['bottom'].set_color('#36393E')
-            ax.spines['top'].set_color('#36393E')
-            ax.spines['right'].set_color('#36393E')
-            ax.spines['left'].set_color('#36393E')
+            ax.spines['bottom'].set_color('white')
+            ax.spines['top'].set_color('white')
+            ax.spines['right'].set_color('white')
+            ax.spines['left'].set_color('white')
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+            ax.yaxis.label.set_color('white')
+            ax.xaxis.label.set_color('white')
+            ax.title.set_color('white')
             ax.set_facecolor('#36393E')
             plt.xlabel('Days of the Month', color='white')
             plt.ylabel('Number of Applicants', color='white')
@@ -558,11 +563,15 @@ async def showgraph(ctx, *args):
         activities = ["Accepted", "Denied"]
         cols = ['c', 'm']
         plt.title('Total Applicant Data')
-        plt.pie(slices, labels=activities, colors=cols,
-                startangle=90,
-                shadow=True,
-                explode=(0, 0),
-                autopct='%1.1f%%')
+        patches, texts, autotexts = plt.pie(slices, labels=activities, colors=cols,
+                                            startangle=90,
+                                            shadow=True,
+                                            explode=(0, 0),
+                                            autopct='%1.1f%%')
+        for text in texts:
+            text.set_color('white')
+        for autotext in autotexts:
+            autotext.set_color('black')
         plt.savefig("pie.png", bbox_inches='tight', facecolor='#36393E')
         with open("pie.png", "rb") as f:
             await client.send_file(channel, f)
@@ -589,6 +598,15 @@ async def showgraph(ctx, *args):
             print(dates)
             ax = plt.figure().gca()
             ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+            ax.spines['bottom'].set_color('white')
+            ax.spines['top'].set_color('white')
+            ax.spines['right'].set_color('white')
+            ax.spines['left'].set_color('white')
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+            ax.yaxis.label.set_color('white')
+            ax.xaxis.label.set_color('white')
+            ax.title.set_color('white')
             plt.xticks(dates, dates)
             p1 = plt.bar(dates, accepted, width)
             p2 = plt.bar(dates, denied, width, bottom=denied)
