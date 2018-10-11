@@ -502,11 +502,12 @@ async def showgraph(ctx, *args):
             ax.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
             ax.set_facecolor('#36393E')
-            plt.xlabel('Days of the Month')
-            plt.ylabel('Number of Applicants')
-            plt.title('Applicant Data for {}, {}'.format(realmonth, yr))
+            plt.xlabel('Days of the Month', color='whitesmoke')
+            plt.ylabel('Number of Applicants', color='whitesmoke')
+            plt.title('Applicant Data for {}, {}'.format(realmonth, yr), color='whitesmoke')
             plt.plot(x, y, color='k')
             plt.savefig("plot.png", bbox_inches='tight')
+            plt.patch.set_facecolor('#36393E')
             with open("plot.png", "rb") as f:
                 await client.send_file(channel, f)
             plt.clf()
@@ -527,11 +528,12 @@ async def showgraph(ctx, *args):
                 ax.yaxis.set_major_locator(MaxNLocator(integer=True))
                 ax.xaxis.set_major_locator(MaxNLocator(integer=True))
                 ax.set_facecolor('#36393E')
-                plt.xlabel('Months')
-                plt.ylabel('Number of Applicants')
+                plt.xlabel('Months', color='whitesmoke')
+                plt.ylabel('Number of Applicants', color='whitesmoke')
                 plt.title('Applicant Data for {}, between {} and {}'.format(
-                    yr, realmonth, realmonth2))
-                plt.plot(x, y, color='k')
+                    yr, realmonth, realmonth2), color='whitesmoke')
+                plt.plot(x, y, color='whitesmoke')
+                plt.patch.set_facecolor('#36393E')
                 plt.savefig("plot.png", bbox_inches='tight')
                 with open("plot.png", "rb") as f:
                     await client.send_file(channel, f)
@@ -544,12 +546,13 @@ async def showgraph(ctx, *args):
         activities = ["Accepted", "Denied"]
         cols = ['c', 'm']
         plt.title('Total Applicant Data')
-        plt.set_facecolor('#36393E')
+        ax.set_facecolor('#36393E')
         plt.pie(slices, labels=activities, colors=cols,
                 startangle=90,
                 shadow=True,
                 explode=(0, 0),
                 autopct='%1.1f%%')
+        plt.patch.set_facecolor('#36393E')
         plt.savefig("pie.png", bbox_inches='tight')
         with open("pie.png", "rb") as f:
             await client.send_file(channel, f)
@@ -578,11 +581,13 @@ async def showgraph(ctx, *args):
             plt.xticks(dates, dates)
             p1 = plt.bar(dates, accepted, width)
             p2 = plt.bar(dates, denied, width, bottom=denied)
-            plt.set_facecolor('#36393E')
-            plt.ylabel('Users')
-            plt.title('Users Accepted/Denied\nPer months: {} - {}'.format(realmonth, realmonth2))
+            ax.set_facecolor('#36393E')
+            plt.ylabel('Users', color='whitesmoke')
+            plt.title('Users Accepted/Denied\nPer months: {} - {}'.format(realmonth,
+                                                                          realmonth2), color='whitesmoke')
 
             plt.legend((p1[0], p2[0]), ('Accepted', 'Denied '))
+            plt.patch.set_facecolor('#36393E')
             plt.savefig("bar.png", bbox_inches='tight')
             with open("bar.png", "rb") as f:
                 await client.send_file(channel, f)
