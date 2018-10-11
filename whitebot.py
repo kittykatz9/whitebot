@@ -486,10 +486,9 @@ async def showgraph(ctx, *args):
     if m2 == "12":
         realmonth2 = "December"
     channel = ctx.message.channel
-
+    bg_color = '#36393E'
+    fg_color = 'white'
     if graphtype == "plot":
-        bg_color = '36393E'
-        fg_color = 'white'
         if m2 == 0:
             x = []
             y = []
@@ -507,7 +506,8 @@ async def showgraph(ctx, *args):
             plt.xlabel('Days of the Month', color='whitesmoke')
             plt.ylabel('Number of Applicants', color='whitesmoke')
             plt.title('Applicant Data for {}, {}'.format(realmonth, yr), color='whitesmoke')
-            plt.plot(x, y, color='k', facecolor=bg_color, edgecolor=fg_color)
+            fig = plt.figure(facecolor=bg_color, edgecolor=fg_color)
+            fig.plot(x, y, color='whitesmoke')
             plt.savefig("plot.png", bbox_inches='tight')
             with open("plot.png", "rb") as f:
                 await client.send_file(channel, f)
@@ -533,8 +533,8 @@ async def showgraph(ctx, *args):
                 plt.ylabel('Number of Applicants', color='whitesmoke')
                 plt.title('Applicant Data for {}, between {} and {}'.format(
                     yr, realmonth, realmonth2), color='whitesmoke')
-                plt.plot(x, y, color='whitesmoke')
-                plt.patch.set_facecolor('#36393E')
+                fig = plt.figure(facecolor=bg_color, edgecolor=fg_color)
+                fig.plot(x, y, color='whitesmoke')
                 plt.savefig("plot.png", bbox_inches='tight')
                 with open("plot.png", "rb") as f:
                     await client.send_file(channel, f)
@@ -554,7 +554,9 @@ async def showgraph(ctx, *args):
                 startangle=90,
                 shadow=True,
                 explode=(0, 0),
-                autopct='%1.1f%%')
+                autopct='%1.1f%%',
+                facecolor=bg_color,
+                edgecolor=fg_color)
         plt.savefig("pie.png", bbox_inches='tight')
         with open("pie.png", "rb") as f:
             await client.send_file(channel, f)
@@ -581,15 +583,15 @@ async def showgraph(ctx, *args):
             print(dates)
             ax = plt.figure().gca()
             plt.xticks(dates, dates)
-            p1 = plt.bar(dates, accepted, width)
-            p2 = plt.bar(dates, denied, width, bottom=denied)
+            p1 = plt.bar(dates, accepted, width, facecolor=bg_color, edgecolor=fg_color)
+            p2 = plt.bar(dates, denied, width, bottom=denied,
+                         facecolor=bg_color, edgecolor=fg_color)
             ax.set_facecolor('#36393E')
             plt.ylabel('Users', color='whitesmoke')
             plt.title('Users Accepted/Denied\nPer months: {} - {}'.format(realmonth,
                                                                           realmonth2), color='whitesmoke')
 
             plt.legend((p1[0], p2[0]), ('Accepted', 'Denied '))
-            plt.patch.set_facecolor('#36393E')
             plt.savefig("bar.png", bbox_inches='tight')
             with open("bar.png", "rb") as f:
                 await client.send_file(channel, f)
