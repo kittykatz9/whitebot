@@ -493,6 +493,7 @@ async def showgraph(ctx, *args):
             ax.plot(x, y)
             ax.yaxis.set_major_locator(MaxNLocator(integer=True))
             ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            ax.set_facecolor('#36393E')
             plt.xlabel('Days of the Month')
             plt.ylabel('Number of Applicants')
             plt.title('Applicant Data for {}, {}'.format(realmonth, yr))
@@ -517,6 +518,7 @@ async def showgraph(ctx, *args):
                 ax.plot(x, y)
                 ax.yaxis.set_major_locator(MaxNLocator(integer=True))
                 ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+                ax.set_facecolor('#36393E')
                 plt.xlabel('Months')
                 plt.ylabel('Number of Applicants')
                 plt.title('Applicant Data for {}, between {} and {}'.format(
@@ -534,6 +536,7 @@ async def showgraph(ctx, *args):
         activities = ["Accepted", "Denied"]
         cols = ['c', 'm']
         plt.title('Total Applicant Data')
+        plt.set_facecolor('#36393E')
         plt.pie(slices, labels=activities, colors=cols,
                 startangle=90,
                 shadow=True,
@@ -567,7 +570,7 @@ async def showgraph(ctx, *args):
             plt.xticks(dates, dates)
             p1 = plt.bar(dates, accepted, width)
             p2 = plt.bar(dates, denied, width, bottom=denied)
-            ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+            plt.set_facecolor('#36393E')
             plt.ylabel('Users')
             plt.title('Users Accepted/Denied\nPer months: {} - {}'.format(realmonth, realmonth2))
 
