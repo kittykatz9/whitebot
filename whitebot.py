@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from discord.ext import commands
 import json
+pending = []
 
 # https://discordapp.com/oauth2/authorize?client_id=498889371030781952&scope=bot&permissions=268512342
 # https://discordapp.com/oauth2/authorize?client_id=498964999918583820&scope=bot&permissions=268512306
@@ -47,6 +48,72 @@ async def on_message(message):
 async def on_member_join(member):
     role = discord.utils.get(member.server.roles, name="pending")
     await client.add_roles(member, role)
+    pending.append(member.mention)
+
+
+@client.event
+async def on_member_kick(member):
+    role = discord.utils.get(member.server.roles,
+                             name="pending")
+    if member.mention in pending:
+        time = now.strftime("%Y-%m-%d %H:%M")
+        if role in member.roles:
+            y = str(now.year)
+            m = str(now.month)
+            d = str(now.day)
+            await client.kick(ctx.message.mentions[0])
+            stats['Statistics'][0]['Applicants'] += 1
+            stats['Statistics'][0]['Users Denied'] += 1
+            stats['Applied'][0][str(member)] = time
+            stats['Denied'][0][str(member)] = time
+            stats['Data Applied'][0][y][0][m][0][d] += 1
+            stats['Data Denied'][0][y][0][m][0][d] += 1
+            save_stats(stats)
+            await client.say("User " + member + " denied")
+            pending.remove(member)
+
+
+@client.event
+async def on_member_ban(member):
+    role = discord.utils.get(member.server.roles,
+                             name="pending")
+    if member.mention in pending:
+        time = now.strftime("%Y-%m-%d %H:%M")
+        if role in member.roles:
+            y = str(now.year)
+            m = str(now.month)
+            d = str(now.day)
+            await client.kick(ctx.message.mentions[0])
+            stats['Statistics'][0]['Applicants'] += 1
+            stats['Statistics'][0]['Users Denied'] += 1
+            stats['Applied'][0][str(member)] = time
+            stats['Denied'][0][str(member)] = time
+            stats['Data Applied'][0][y][0][m][0][d] += 1
+            stats['Data Denied'][0][y][0][m][0][d] += 1
+            save_stats(stats)
+            await client.say("User " + member + " denied")
+            pending.remove(member)
+
+
+@client.event
+async def on_member_update(member):
+    role = discord.utils.get(ctx.message.server.roles,
+                             name="pending")
+    if member.mention in pending:
+        time = now.strftime("%Y-%m-%d %H:%M")
+        y = str(now.year)
+        m = str(now.month)
+        d = str(now.day)
+        await client.remove_roles(member, role)
+        stats['Statistics'][0]['Applicants'] += 1
+        stats['Statistics'][0]['Users Accepted'] += 1
+        stats['Applied'][0][str(member)] = time
+        stats['Accepted'][0][str(member)] = time
+        stats['Data Applied'][0][y][0][m][0][d] += 1
+        stats['Data Accepted'][0][y][0][m][0][d] += 1
+        save_stats(stats)
+        await client.say("User " + member + " accepted")
+        pending.remove(member.mention)
 
 
 @client.command(pass_context=True)
@@ -66,6 +133,7 @@ async def accept(ctx):
                         y = str(now.year)
                         m = str(now.month)
                         d = str(now.day)
+                        pending.remove(member)
                         await client.remove_roles(member, role)
                         stats['Statistics'][0]['Applicants'] += 1
                         stats['Statistics'][0]['Users Accepted'] += 1
@@ -76,7 +144,7 @@ async def accept(ctx):
                         save_stats(stats)
                         await client.say("User " + member + " accepted")
                     else:
-                        await client.say("User already accepted")
+                        await client.say("User Not pending...")
         except IndexError:
             await client.say("You must mention someone...")
 
@@ -103,6 +171,7 @@ async def deny(ctx):
                         y = str(now.year)
                         m = str(now.month)
                         d = str(now.day)
+                        pending.remove(member)
                         await client.kick(ctx.message.mentions[0])
                         stats['Statistics'][0]['Applicants'] += 1
                         stats['Statistics'][0]['Users Denied'] += 1
